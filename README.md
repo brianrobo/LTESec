@@ -1711,3 +1711,13 @@ Mitigation
 > **“UE / Modem은 어떤 정보를 이용해 이 공격을 탐지할 수 있는가?”**
 
 까지 연결하는 것을 연구 목표로 한다.
+
+
+
+
+
+
+
+이 구조라면 앞으로 제가 조사한 내용을 그냥 계속 GitHub에 누적하면 됩니다. 특히 추천하는 운영 방식은 README.md를 전체 목차/지도, docs/ 아래를 각 주제의 상세 연구노트로 쓰는 방식입니다. 예를 들어 다음 단계에서 docs/03-nas-security/README.md를 만들고 NAS Security Context → SMC → Security Header → COUNT → Replay → EEA/EIA 순으로 깊게 들어가면 됩니다. 
+
+GitHub 연결을 해두면, 다음 단계부터는 제가 이 구조에 맞춰 파일별 Markdown을 만들고 repo에 축적하는 방식으로 같이 진행할 수 있습니다.
