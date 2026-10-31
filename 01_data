@@ -1,0 +1,297 @@
+1. 먼저 LTE Security 전체 구조를 이렇게 잡는 것을 추천
+
+LTE SECURITY
+│
+├─ 1. Security Architecture / Trust Model
+│    ├─ UE / USIM
+│    ├─ eNB
+│    ├─ MME
+│    ├─ HSS/AuC
+│    └─ EPC interfaces
+│
+├─ 2. Authentication & Key Management
+│    ├─ EPS-AKA
+│    ├─ RAND / AUTN / RES / XRES
+│    ├─ CK / IK
+│    ├─ KASME
+│    └─ Key hierarchy / key refresh
+│
+├─ 3. NAS Security            ★ 매우 중요
+│    ├─ NAS Security Context
+│    ├─ Security Mode Command
+│    ├─ EEA / EIA selection
+│    ├─ KNASenc / KNASint
+│    ├─ COUNT / replay protection
+│    ├─ integrity protection
+│    └─ ciphering
+│
+├─ 4. AS / RRC / PDCP Security
+│    ├─ KeNB
+│    ├─ KRRCenc / KRRCint
+│    ├─ KUPenc
+│    ├─ Security Mode procedure
+│    └─ handover key derivation
+│
+├─ 5. Identity & Privacy
+│    ├─ IMSI
+│    ├─ GUTI / S-TMSI
+│    ├─ IMSI catcher
+│    ├─ paging tracking
+│    └─ location tracking
+│
+├─ 6. Pre-authentication Attack Surface ★ 매우 중요
+│    ├─ Identity Request
+│    ├─ Attach / TAU Reject
+│    ├─ Authentication Reject
+│    ├─ Service Reject
+│    ├─ security capability manipulation
+│    └─ rogue eNB
+│
+├─ 7. Downgrade / Fake Cell / Cell Selection
+│    ├─ LTE → 3G / 2G downgrade
+│    ├─ fake base station
+│    ├─ reselection manipulation
+│    ├─ SIB manipulation
+│    └─ signal overshadowing
+│
+├─ 8. DoS / Availability
+│    ├─ Reject based DoS
+│    ├─ paging storm
+│    ├─ attach storm
+│    ├─ jamming
+│    └─ malformed signalling
+│
+├─ 9. L2 / User Plane Attacks
+│    ├─ RNTI tracking
+│    ├─ website fingerprinting
+│    ├─ ALTER
+│    ├─ IMP4GT
+│    └─ missing UP integrity
+│
+├─ 10. Implementation Security
+│    ├─ malformed NAS/RRC
+│    ├─ protocol fuzzing
+│    ├─ negative testing
+│    ├─ state-machine bugs
+│    └─ baseband vulnerabilities
+│
+└─ 11. Detection / Mitigation
+     ├─ rogue-cell detection
+     ├─ behavioral detection
+     ├─ anomaly scoring
+     ├─ UE/modem reporting
+     └─ 4G → 5G security improvements
+
+
+
+
+
+2. 가장 먼저 확보해야 할 표준 / eBook
+
+A. NIST SP 800-187 — Guide to LTE Security
+제가 가장 먼저 읽기를 권합니다.
+
+LTE architecture → security architecture → authentication → key hierarchy → threat → mitigation까지 한 문서에서 연결해줍니다. NIST 문서라서 무료입니다. 특히 K → CK/IK → KASME → KNAS / KeNB 구조를 이해하기 좋습니다.
+
+NIST Guide to LTE Security
+
+https://csrc.nist.gov/pubs/sp/800/187/final?utm_source=chatgpt.com
+
+
+추천도: ★★★★★
+
+
+
+B. LTE Security, 2nd Edition — Forsberg / Horn / Moeller / Niemi
+LTE Security 분야에서는 사실상 교과서에 가깝습니다.
+
+특히 아래 챕터들이 중요합니다
+Chapter 6   EPS Security Architecture
+Chapter 7   EPS Authentication and Key Agreement
+Chapter 8   EPS Protection for Signalling and User Data
+Chapter 9   Security in LTE Mobility
+Chapter 10  Cryptographic Algorithms
+Chapter 11  EPS / 3G / GSM Interworking Security
+
+
+3GPP specification이 주로 **“무엇을 해야 하는가”**를 설명한다면 이 책은 **“왜 그렇게 설계했는가”**를 설명하는 장점이 있습니다. Wiley
+
+LTE Security 2nd Edition — Wiley
+
+추천도: ★★★★★
+
+
+
+
+3. 실제 Spec — 이 둘은 필수
+3GPP TS 33.401
+System Architecture Evolution; Security architecture
+
+LTE Security의 핵심 spec입니다. 3GPP 포털
+
+여기서 봐야 할 핵심:
+EPS AKA
+Security context
+Key hierarchy
+KASME
+KNASenc
+KNASint
+KeNB
+NAS integrity/ciphering
+AS integrity/ciphering
+Handover key derivation
+Algorithm negotiation
+
+
+2026년 현재도 Release 18/19 계열이 관리되고 있습니다. ETSI Portal
+
+3GPP TS 33.401 specification page
+
+추천도: ★★★★★
+
+
+
+3GPP TS 24.301
+이건 륜님한테는 특히 중요합니다.
+
+NAS protocol for EPS; Stage 3
+
+즉 NAS state machine과 메시지 동작을 security 관점에서 읽는 기반입니다.
+
+2026년 9월 기준 ETSI가 TS 124 301 V19.8.0 / Release 19를 게시하고 있습니다. ETSI Portal
+
+여기서 앞으로 공격 유형을 분석할 때:
+
+
+Attach Request
+Attach Accept / Reject
+
+TAU Request
+TAU Accept / Reject
+
+Service Request / Reject
+
+Identity Request / Response
+
+Authentication Request / Response / Reject
+
+Security Mode Command
+Security Mode Complete / Reject
+
+EMM Cause
+T3346
+T3402
+T3411
+T3245
+
+를 하나씩 공격 시나리오와 대응시킬 수 있습니다.
+
+ETSI TS 24.301 current publication
+
+추천도: ★★★★★+
+
+
+
+
+
+4. 한국어로 전체 구조 익힐 자료
+의외로 Netmanias LTE Security 시리즈가 상당히 좋습니다.
+LTE Security I — Authentication
+EPS-AKA, KASME까지 그림으로 설명합니다. 넷매니아스
+
+Netmanias LTE Security I
+LTE Security II — NAS / AS Security
+이건 륜님에게 특히 추천합니다.
+
+Security Mode Command / Complete → NAS Security setup → NAS / AS key 구조를 설명합니다. 넷매니아스
+
+Netmanias LTE Security II — NAS & AS Security
+
+추천도: ★★★★★
+
+먼저 이 두 개 읽고 NIST → 33.401로 가면 spec 읽기가 훨씬 수월해집니다.
+
+
+
+
+5. GitHub — 이것들은 bookmark 해두는 게 좋습니다
+① Cellular Security Papers
+개인적으로 첫 번째로 bookmark할 GitHub입니다.
+
+Cellular security 논문 / framework / 공격 / 방어 / fuzzing 자료를 계속 정리하고 있습니다. LTEInspector, DoLTEst, ProChecker, LTE fuzzing, 5G security까지 연결됩니다. GitHub
+
+Cellular Security Papers — GitHub
+https://github.com/onehouwong/Cellular-Security-Papers?utm_source=chatgpt.com
+
+★★★★★
+
+
+
+
+
+② Awesome Cellular Hacking
+LTE/4G 쪽에 다음과 같은 연구가 잘 정리되어 있습니다.
+
+LTE Public Warning System attacks
+Signal Overshadowing
+Breaking LTE on Layer Two
+LTE Protocol Exploits
+Paging Storm
+LTE Security Disabled
+Fake Base Station
+Baseband attacks
+LTE/5G protocol vulnerabilities
+``` :chatgpt-content-reference{index="17"}
+
+
+[Awesome Cellular Hacking — GitHub](https://github.com/W00t3k/Awesome-Cellular-Hacking?utm_source=chatgpt.com)
+
+**★★★★★**
+
+---
+
+# 6. LTE 연구용 Core / UE / eNB
+
+## srsRAN 4G
+
+Security 연구를 하려면 사실상 반드시 알아야 합니다.
+
+```text
+srsUE
+srsENB
+srsEPC
+
+
+
+
+
+가 모두 포함되어 있고 NAS/RRC/PDCP/S1AP 등을 실제 코드에서 확인할 수 있습니다. GitHub
+
+특히 srsUE는:
+- Milenage
+- SNOW3G
+- AES integrity / ciphering
+- NAS packet capture
+- MAC packet capture
+등을 지원합니다. GitHub
+
+srsRAN 4G GitHub
+https://github.com/srsran/srsRAN_4G?utm_source=chatgpt.com
+
+★★★★★
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
