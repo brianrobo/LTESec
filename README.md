@@ -1047,4 +1047,667 @@ NASLTE
 NAS5G
 ```
 
-활
+활용 예:
+
+```text
+NAS Log
+   ↓
+pycrate Parser
+   ↓
+Message Type
+   ↓
+Security Header
+   ↓
+Cause
+   ↓
+IE
+   ↓
+Threat Classification
+```
+
+### GitHub
+
+https://github.com/pycrate-org/pycrate
+
+### Priority
+
+**★★★★★**
+
+---
+
+## 17.6 LTESniffer
+
+KAIST System Security Lab LTE Sniffer.
+
+LTE downlink / uplink control information을 분석할 수 있다.
+
+연구 가능 항목:
+
+```text
+RNTI Analysis
+
+TMSI Mapping
+
+UE Activity
+
+UE Capability
+
+LTE Traffic Analysis
+```
+
+### GitHub
+
+https://github.com/SysSec-KAIST/LTESniffer
+
+### Priority
+
+**★★★★☆**
+
+> 실제 상용망을 대상으로 한 interception이나 active attack은 법률 및 전파 규정을 고려해야 한다. 연구는 test network, RF shielding 환경 또는 허가된 환경에서 수행하는 것이 적절하다.
+
+---
+
+# 18. Important Research Papers
+
+## 18.1 LTEInspector
+
+### Paper
+
+**LTEInspector: A Systematic Approach for Adversarial Testing of 4G LTE**
+
+NDSS 2018.
+
+LTE protocol state machine에 formal analysis와 adversarial testing을 적용한 대표 연구.
+
+### 연구 대상
+
+```text
+Attach
+
+Detach
+
+Paging
+
+Authentication
+
+Mobility
+```
+
+### 발견 유형
+
+- Privacy Attack
+- Authentication Attack
+- Availability Attack
+- Location Tracking
+- Identity Exposure
+
+### GitHub
+
+https://github.com/relentless-warrior/LTEInspector
+
+### 핵심 연구 개념
+
+```text
+Protocol State Machine
+        +
+Security Property
+        +
+Adversarial Message
+        =
+Protocol Vulnerability
+```
+
+### Priority
+
+**★★★★★**
+
+---
+
+## 18.2 LTEFuzz
+
+### Paper
+
+**Touching the Untouchables: Dynamic Security Analysis of the LTE Control Plane**
+
+IEEE Symposium on Security and Privacy 2019.
+
+LTE Control Plane에 fuzzing을 적용한 대표 연구.
+
+### 주요 공격 카테고리
+
+```text
+Unprotected Initial Procedures
+
+Crafted Plain Requests
+
+Invalid Integrity Protection
+
+Replayed Messages
+
+Security Procedure Bypass
+```
+
+LTE Threat Taxonomy를 만들 때 매우 유용한 분류다.
+
+### Priority
+
+**★★★★★**
+
+---
+
+## 18.3 Breaking LTE on Layer Two
+
+LTE Layer 2 공격을 체계적으로 보여준 연구.
+
+주요 공격:
+
+```text
+Identity Mapping
+
+Website Fingerprinting
+
+ALTER
+```
+
+특히 ALTER는 LTE user-plane에 integrity protection이 없는 설계 특성을 이용한다.
+
+### Video
+
+https://www.youtube.com/watch?v=BOueu-wMOLw
+
+### Priority
+
+**★★★★★**
+
+---
+
+## 18.4 IMP4GT
+
+### Paper
+
+**IMP4GT: IMPersonation Attacks in 4G NeTworks**
+
+LTE user-plane integrity protection 부재를 이용하여 impersonation attack을 연구했다.
+
+대표 attack concept:
+
+```text
+LTE Relay / MITM
+       ↓
+Packet Manipulation
+       ↓
+UE Impersonation
+or
+Network Impersonation
+```
+
+### NDSS
+
+https://www.ndss-symposium.org/ndss-paper/imp4gt-impersonation-attacks-in-4g-networks/
+
+### Priority
+
+**★★★★☆**
+
+---
+
+## 18.5 DoLTEst
+
+### Paper
+
+**DoLTEst: In-depth Downlink Negative Testing Framework for LTE Devices**
+
+USENIX Security 2022.
+
+UE / Modem에 대한 LTE negative testing 연구.
+
+### Test Example
+
+```text
+Invalid Value
+
+Prohibited IE
+
+Unexpected Message
+
+Malformed Sequence
+
+Wrong State
+```
+
+Baseband / modem implementation security 연구에 매우 중요하다.
+
+### USENIX
+
+https://www.usenix.org/conference/usenixsecurity22/presentation/park-cheoljun
+
+### Priority
+
+**★★★★★**
+
+---
+
+# 19. YouTube / Lectures
+
+## 19.1 LTE Security Part 1
+
+LTE Security 전체 구조를 처음 이해하기 위한 입문 강의.
+
+https://www.youtube.com/watch?v=4JXhKhxY3Oo
+
+### Priority
+
+**★★★★☆**
+
+---
+
+## 19.2 LTE Authentication & Security Concept
+
+EPS Authentication과 NAS / AS security 관계를 이해하기 좋다.
+
+```text
+UE ←──── NAS Security ────→ MME
+
+UE ←──── AS Security ─────→ eNB
+```
+
+https://www.youtube.com/watch?v=q-OdcJ6QBxM
+
+### Priority
+
+**★★★★☆**
+
+---
+
+## 19.3 Breaking LTE on Layer Two
+
+IEEE Security & Privacy 발표.
+
+https://www.youtube.com/watch?v=BOueu-wMOLw
+
+### Priority
+
+**★★★★★**
+
+---
+
+## 19.4 Detecting Fake 4G LTE Base Stations in Real Time
+
+USENIX / Enigma presentation.
+
+Fake LTE Base Station / IMSI Catcher detection 연구에 유용하다.
+
+https://www.youtube.com/watch?v=MlIKV5qAf2I
+
+연구 키워드:
+
+```text
+Fake Cell
+
+Rogue eNB
+
+IMSI Catcher
+
+Cell Behavior
+
+Anomaly Detection
+```
+
+### Priority
+
+**★★★★☆**
+
+---
+
+# 20. Coursera / Online Courses
+
+LTE Security만을 깊게 다루는 Coursera 과정은 상대적으로 적다.
+
+5G Security 과정에서 다음 개념을 보완하는 것이 좋다.
+
+- Security Foundations
+- Attack Vectors
+- Vulnerabilities
+- Security Standards
+- Security Enablers
+- LTE → 5G Security Evolution
+
+Example:
+
+https://www.coursera.org/learn/5g-mobile-networks-course-3
+
+그러나 LTE Security 심화 연구에서는 다음 우선순위를 추천한다.
+
+```text
+3GPP
+  ↓
+NIST
+  ↓
+LTE Security Book
+  ↓
+Research Papers
+  ↓
+srsRAN / Open5GS
+  ↓
+Implementation / Experiment
+```
+
+---
+
+# 21. Research Roadmap
+
+최종적으로 다음 챕터를 하나씩 연구한다.
+
+```text
+01. LTE Security Architecture
+
+02. EPS Authentication
+
+03. LTE Key Hierarchy
+
+04. NAS Security
+
+05. AS Security
+
+06. Identity & Privacy
+
+07. Pre-authentication Vulnerabilities
+
+08. Fake eNB / IMSI Catcher
+
+09. Downgrade Attacks
+
+10. Reject / DoS Attacks
+
+11. Paging / Location Tracking
+
+12. Cell Reselection / SIB Manipulation
+
+13. Jamming
+
+14. Layer 2 Attacks
+
+15. User Plane Attacks
+
+16. Protocol Fuzzing
+
+17. Baseband Implementation Security
+
+18. Detection & Mitigation
+
+19. LTE → 5G Security Evolution
+```
+
+---
+
+# 22. 각 연구 주제 분석 Template
+
+앞으로 모든 공격을 동일한 template으로 분석한다.
+
+```text
+1. Normal Operation
+
+2. 3GPP Specification
+
+3. Security Assumption
+
+4. Attack Surface
+
+5. Attack Prerequisite
+
+6. Attack Procedure
+
+7. UE / Network State Transition
+
+8. Security Impact
+
+9. Representative Research
+
+10. Existing PoC / GitHub
+
+11. Detection Method
+
+12. Mitigation
+
+13. Modem Observable Data
+
+14. AP Observable Data
+
+15. Remaining Research Questions
+```
+
+예를 들어:
+
+```text
+TAU Reject Attack
+
+Normal Procedure
+     ↓
+3GPP Requirement
+     ↓
+Authentication 여부
+     ↓
+Integrity Protection 여부
+     ↓
+Reject Cause
+     ↓
+UE State Transition
+     ↓
+Timer
+     ↓
+Attack Possibility
+     ↓
+Detection Signal
+     ↓
+Mitigation
+```
+
+이 구조로 정리하면 각 공격 간 비교가 쉬워진다.
+
+---
+
+# 23. Recommended Repository Structure
+
+처음에는 `README.md` 하나로 시작해도 되지만 연구가 진행되면 다음 구조를 추천한다.
+
+```text
+lte-security-research/
+│
+├── README.md
+│
+├── docs/
+│   │
+│   ├── 01-architecture/
+│   │   └── README.md
+│   │
+│   ├── 02-authentication/
+│   │   ├── eps-aka.md
+│   │   └── key-hierarchy.md
+│   │
+│   ├── 03-nas-security/
+│   │   ├── README.md
+│   │   ├── security-context.md
+│   │   ├── security-mode-command.md
+│   │   ├── integrity.md
+│   │   └── ciphering.md
+│   │
+│   ├── 04-as-security/
+│   │
+│   ├── 05-identity-privacy/
+│   │   ├── imsi.md
+│   │   ├── guti.md
+│   │   └── paging-tracking.md
+│   │
+│   ├── 06-pre-auth/
+│   │   ├── identity-request.md
+│   │   ├── attach-reject.md
+│   │   ├── tau-reject.md
+│   │   ├── service-reject.md
+│   │   └── authentication-reject.md
+│   │
+│   ├── 07-fake-cell/
+│   │
+│   ├── 08-downgrade/
+│   │
+│   ├── 09-dos/
+│   │
+│   ├── 10-layer2/
+│   │
+│   ├── 11-fuzzing/
+│   │
+│   └── 12-detection/
+│
+├── papers/
+│   └── README.md
+│
+├── tools/
+│   └── README.md
+│
+├── experiments/
+│   └── README.md
+│
+└── references/
+    ├── books.md
+    ├── standards.md
+    ├── papers.md
+    ├── github.md
+    └── videos.md
+```
+
+---
+
+# 24. Initial Research Priority
+
+현재 가장 먼저 깊게 연구할 영역:
+
+## Phase 1
+
+```text
+NAS Security
+   ↓
+Security Context
+   ↓
+Security Mode Command
+   ↓
+Integrity / Ciphering
+```
+
+## Phase 2
+
+```text
+Pre-authentication Signalling
+   ↓
+Identity Request
+   ↓
+Attach Reject
+   ↓
+TAU Reject
+   ↓
+Service Reject
+   ↓
+Authentication Reject
+```
+
+## Phase 3
+
+```text
+Fake eNB
+   ↓
+IMSI Catcher
+   ↓
+Location Tracking
+   ↓
+Paging
+```
+
+## Phase 4
+
+```text
+RAT Downgrade
+
+Cell Reselection Manipulation
+
+SIB Manipulation
+
+DoS / Jamming
+```
+
+## Phase 5
+
+```text
+Detection
+   ↓
+Modem Observable Information
+   ↓
+Threat Classification
+   ↓
+Threat Scoring
+   ↓
+Network Security Event Reporting
+```
+
+---
+
+# 25. Core Reference List
+
+| Category | Resource | Priority |
+|---|---|---|
+| Standard | 3GPP TS 33.401 | ★★★★★ |
+| Standard | 3GPP TS 24.301 | ★★★★★ |
+| Book | LTE Security, 2nd Edition | ★★★★★ |
+| Free eBook | NIST SP 800-187 | ★★★★★ |
+| Tutorial | Netmanias LTE Security | ★★★★★ |
+| GitHub | srsRAN 4G | ★★★★★ |
+| GitHub | Open5GS | ★★★★★ |
+| GitHub | pycrate | ★★★★★ |
+| GitHub | Cellular Security Papers | ★★★★★ |
+| GitHub | Awesome Cellular Hacking | ★★★★★ |
+| Research | LTEInspector | ★★★★★ |
+| Research | LTEFuzz | ★★★★★ |
+| Research | Breaking LTE on Layer Two | ★★★★★ |
+| Research | IMP4GT | ★★★★☆ |
+| Research | DoLTEst | ★★★★★ |
+| Tool | LTESniffer | ★★★★☆ |
+| Video | Fake LTE Base Station Detection | ★★★★☆ |
+
+---
+
+# Research Goal
+
+최종 목표는 단순히 LTE 공격 사례를 수집하는 것이 아니다.
+
+각 threat에 대해 다음 관계를 이해하는 것이다.
+
+```text
+LTE Specification
+       ↓
+Security Assumption
+       ↓
+Protocol Behavior
+       ↓
+Attack Surface
+       ↓
+Attack Technique
+       ↓
+Observable Evidence
+       ↓
+Detection
+       ↓
+Threat Classification
+       ↓
+Mitigation
+```
+
+즉,
+
+> **“어떤 공격이 존재하는가?”**
+
+에서 끝나는 것이 아니라,
+
+> **“LTE protocol의 어떤 설계 특성 때문에 이 공격이 가능한가?”**
+
+그리고 최종적으로,
+
+> **“UE / Modem은 어떤 정보를 이용해 이 공격을 탐지할 수 있는가?”**
+
+까지 연결하는 것을 연구 목표로 한다.
