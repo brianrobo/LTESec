@@ -228,3 +228,202 @@ PASS / FAIL
 
 그리고 그 결과가 결국 **더 적은 human-in-the-loop → 더 높은 병렬성 → 더 높은 automation**으로 이어지는 겁니다.
 
+
+
+
+-----------------
+
+
+맞아요. 여기서 Lauren이 말하는 **eval**은 아주 쉽게 말하면:
+
+> **“내가 만든 Agent Skill이 실제로 Agent의 행동을 원하는 방향으로 바꾸는지 테스트하는 것”**
+
+입니다.
+
+그래서 **“Agent를 위한 unit test”**라고 표현한 거예요. [Use Transcribe](https://www.usetranscribe.io/yt/fiIW_zS5CV4/spacex-ai-engineer-tan?utm_source=chatgpt.com)
+
+예를 들어 일반 코드의 unit test는:
+
+```text
+함수에 input을 넣는다
+→ output이 예상과 같은지 본다
+```
+
+입니다.
+
+Agent eval은:
+
+```text
+Agent에게 task를 준다
+→ 특정 skill을 사용하게 한다
+→ Agent가 실제로 어떻게 행동했는지 본다
+→ 내가 정의한 기준을 만족했는지 평가한다
+```
+
+가 됩니다.
+
+예를 들어 앞에서 Lauren이 만든 **“추측하지 말고 코드를 읽어라”** skill이 있다고 해보죠.
+
+그 skill이 정말 효과가 있는지 확인하려면 eval을 이렇게 만들 수 있습니다.
+
+```text
+Task:
+"이 feature가 왜 느린지 원인을 찾아라"
+
+Expected behavior:
+- 관련 source를 search한다
+- 실제 code를 read한다
+- call path를 확인한다
+- 근거 없이 추측하지 않는다
+- verification을 수행한다
+```
+
+그리고 Agent 여러 개에게 같은 task를 시켜봅니다.
+
+```text
+Agent A
+→ source 읽음
+→ trace 확인
+→ 근거 제시
+→ PASS
+
+Agent B
+→ 코드 안 읽고 추측
+→ FAIL
+
+Agent C
+→ 일부만 확인
+→ PARTIAL
+```
+
+이게 eval입니다.
+
+그래서 일반 unit test와 대응시키면 아주 이해가 쉽습니다.
+
+```text
+Software Unit Test
+-------------------------
+Input
+→ Function
+→ Output
+→ Assert
+
+Agent Eval
+-------------------------
+Task / Prompt
+→ Agent + Skill
+→ Behavior / Artifact
+→ Rubric로 평가
+```
+
+여기서 **rubric**이 중요합니다.
+
+Rubric은:
+
+> **“무엇을 잘했다고 볼 것인가?”에 대한 채점 기준**
+
+입니다.
+
+Lauren은 main coordinator agent가 먼저 rubric을 만들고, 그다음 여러 sub-agent를 실행해서 skill이 실제로 그 기준을 만족하는지 평가한다고 설명합니다. [Use Transcribe](https://www.usetranscribe.io/yt/fiIW_zS5CV4/spacex-ai-engineer-tan?utm_source=chatgpt.com)
+
+예를 들어:
+
+```text
+Rubric
+
+1. Relevant source를 실제로 읽었는가?      2점
+2. 추측 대신 evidence를 제시했는가?         2점
+3. 실제 app을 실행했는가?                    2점
+4. 문제를 reproduce했는가?                   2점
+5. 수정 후 다시 verification했는가?          2점
+
+Total = 10
+```
+
+이런 식입니다.
+
+그리고 Lauren이 꽤 흥미로운 얘기를 하나 합니다.
+
+Agent가 **“내가 지금 평가받고 있다”**는 걸 알면 행동이 달라질 수 있어서, sub-agent에게 eval이라는 걸 티 내지 않도록 별도 directory를 평범한 이름으로 만든다고 합니다. 즉 실제 업무 상황과 비슷하게 테스트하려는 거죠. [Use Transcribe](https://www.usetranscribe.io/yt/fiIW_zS5CV4/spacex-ai-engineer-tan?utm_source=chatgpt.com)
+
+또 Cursor는 여러 모델을 지원하니까:
+
+```text
+같은 Skill
+
+→ Model A에서 Eval
+→ Model B에서 Eval
+→ Model C에서 Eval
+```
+
+해서 skill이 특정 모델에서만 잘 되는 게 아니라 여러 모델에서도 안정적으로 동작하는지 볼 수 있습니다. [Use Transcribe](https://www.usetranscribe.io/yt/fiIW_zS5CV4/spacex-ai-engineer-tan?utm_source=chatgpt.com)
+
+그리고 **20:16 이후** Lauren이 강조하는 게 하나 더 있습니다.
+
+Skill을 만드는 초기에는 Agent를 수동적으로 보지 말고, pair programming에서 옆자리 동료 코드를 보는 것처럼:
+
+```text
+왜 저 tool을 안 썼지?
+왜 source를 안 읽었지?
+왜 여기서 추측했지?
+왜 verification 없이 끝냈지?
+```
+
+를 계속 관찰하라는 겁니다. 그렇게 반복 failure pattern을 찾고, 그걸 skill로 만들고, 다시 eval로 테스트합니다. [Use Transcribe](https://www.usetranscribe.io/yt/PaPpyQocMww/spacex-ai-engineer-tan?utm_source=chatgpt.com)
+
+전체 루프는 이렇게 됩니다.
+
+```text
+Agent 행동 관찰
+    ↓
+Failure pattern 발견
+    ↓
+Skill 작성 / 수정
+    ↓
+Eval 실행
+    ↓
+Score 확인
+    ↓
+Skill 개선
+    ↓
+다시 Eval
+```
+
+Lauren은 이걸 **hill climbing**한다고 표현합니다. 즉 eval score를 보면서 skill을 조금씩 개선해서 점수를 끌어올리는 겁니다. 다른 모델의 judge agent를 써서 첫 번째 모델의 편향도 교차검증한다고 설명합니다. [Use Transcribe](https://www.usetranscribe.io/yt/PaPpyQocMww/spacex-ai-engineer-tan?utm_source=chatgpt.com)
+
+이게 륜님 modem verification하고도 아주 재미있게 연결됩니다.
+
+```text
+Modem SW
+
+Scenario Input
+→ Target Domain
+→ Boundary Output
+→ Expected Result
+→ PASS / FAIL
+```
+
+이게 **software behavior verification**이라면,
+
+```text
+Agent
+
+Engineering Task
+→ Agent + Modem Skill
+→ 실제 행동
+→ Rubric
+→ PASS / FAIL
+```
+
+은 **Agent behavior verification**입니다.
+
+즉 둘 다 본질은 같습니다.
+
+> **“잘할 것이라고 믿지 말고, 반복 가능한 test로 증명하라.”**
+
+그래서 Lauren의 eval 개념을 한 문장으로 기억하면:
+
+> **Eval = Agent가 우리가 기대한 방식으로 행동하는지 검증하는 자동화된 behavioral test**
+
+입니다.
+
