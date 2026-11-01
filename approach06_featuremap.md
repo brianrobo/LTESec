@@ -224,3 +224,150 @@ Boundary Verification
 이 되는 겁니다.
 
 그래서 **Feature Map은 테스트 코드가 아니라 Agent에게 주는 “제품/기능에 대한 구조화된 지식”**이라고 이해하면 가장 정확합니다. [Prepublish](https://prepublish.ai/youtube-transcript/NjoZoUm85x0?utm_source=chatgpt.com)
+
+
+
+
+-------------------------
+
+맞아요. 철자는 **governance**가 맞습니다.
+
+그리고 륜님 해석이 핵심을 잘 짚었습니다. 이 영상이 단순히 “AI Agent를 잘 쓰는 법”으로 회자되는 게 아니라, 사실은 더 큰 엔지니어링 원칙을 보여주기 때문이라고 볼 수 있습니다.
+
+좋은 결과물은 단순히 좋은 모델이나 좋은 개발자 한 명으로 나오는 게 아니라,
+
+```text
+Best Practice
++
+Clear Governance
++
+Verification
++
+Automation
++
+Feedback Loop
+```
+
+가 같이 있어야 합니다.
+
+여기서 **Best Practice**는:
+
+> “어떻게 일하는 것이 좋은가”
+
+에 대한 축입니다.
+
+예를 들면:
+
+- 테스트를 먼저 설계한다
+- 반복되는 문제는 자동화한다
+- boundary를 명확히 한다
+- 관찰 가능한 evidence를 남긴다
+- regression을 방지한다
+
+반면 **Governance**는:
+
+> “그 좋은 방식이 실제로 계속 지켜지도록 어떤 규칙과 통제 구조를 둘 것인가”
+
+에 더 가깝습니다.
+
+예를 들면:
+
+```text
+이 변경은 어떤 test를 통과해야 하는가?
+누가 merge할 수 있는가?
+어떤 lint rule은 반드시 지켜야 하는가?
+어떤 verification이 없으면 PR을 막을 것인가?
+어떤 실패는 자동으로 reject할 것인가?
+```
+
+이런 것이 governance입니다.
+
+그래서 Lauren 영상의 흐름도 사실:
+
+```text
+좋은 Prompt
+    ↓
+X
+```
+
+가 아니라
+
+```text
+좋은 Engineering Practice
+    ↓
+Verification
+    ↓
+Rule / Test / CI
+    ↓
+Governance
+    ↓
+신뢰 가능한 시스템
+```
+
+으로 보는 게 더 정확합니다.
+
+특히 **auto merge**가 가능한 이유도 governance가 있기 때문입니다.
+
+아무 코드나 자동 merge하는 게 아니라,
+
+```text
+Test PASS
+Lint PASS
+Verification PASS
+정해진 조건 충족
+```
+
+같은 명확한 gate가 있어서,
+
+> “이 조건을 만족하면 merge해도 된다”
+
+라는 **governance rule**이 시스템에 박혀 있는 겁니다.
+
+그래서 좋은 엔지니어링 조직은 사람에게 이렇게 말하지 않습니다.
+
+```text
+"잘 알아서 해주세요."
+```
+
+대신:
+
+```text
+Best Practice를 정의하고
+    ↓
+그걸 Test / CI / Lint / Review Rule로 구조화하고
+    ↓
+그 규칙을 시스템이 강제하게 한다
+```
+
+로 갑니다.
+
+이게 륜님이 LTE Security 쪽에서 생각한 방식과도 다시 연결됩니다.
+
+```text
+공격마다 rule 계속 추가
+    ↓
+복잡도 폭증
+```
+
+보다
+
+```text
+Protocol principle 정의
+    ↓
+Invariant 정의
+    ↓
+Detection logic
+    ↓
+Policy / governance
+```
+
+로 가는 게 더 좋은 구조죠.
+
+한 문장으로 압축하면:
+
+> **Best Practice는 “어떻게 잘할 것인가”이고, Governance는 “그 좋은 방식이 계속 지켜지게 어떻게 통제할 것인가”입니다.**
+
+그리고 Lauren 영상이 인상적인 이유도 바로 이 두 가지를 AI 개발에 실제 시스템으로 구현해서 보여주기 때문이라고 볼 수 있습니다.
+
+
+
