@@ -420,4 +420,137 @@ Mock / Captured Output
 
 이라고 표현해도 상당히 정확합니다.
 
+--------------
+
+
+맞아요. 그 부분은 **“Agent를 여러 개 병렬로 돌려도, 사람이 매번 결과를 검증해야 하면 실제로는 병렬화가 안 된다”**는 의미입니다.
+
+예를 들어 Agent가 4개 있다고 해도:
+
+```text
+Agent A ─┐
+Agent B ─┤
+Agent C ─┤──→ 개발자 1명이 결과 검증
+Agent D ─┘
+```
+
+코드 생성 자체는 병렬입니다.
+
+하지만 개발자가 매번
+
+```text
+실행
+→ UI 확인
+→ 로그 확인
+→ 에러 판단
+→ 수정 요청
+```
+
+을 해야 한다면, 결국 **검증 단계에서 직렬화**됩니다.
+
+즉 실제 throughput은 Agent 수가 아니라 개발자 verification 속도로 제한됩니다.
+
+```text
+Agent 생산 속도 ↑↑↑
+
+하지만
+
+Human Verification 속도 = 그대로
+
+→ Human Bottleneck
+```
+
+그래서 Lauren이 강조하는 게 바로 이겁니다.
+
+> **Agent의 작업을 병렬화하려면 Verification도 사람에게서 분리해야 한다.**
+
+즉 각 Agent가 자기 작업을 끝낸 다음 스스로:
+
+```text
+Agent A
+→ 구현
+→ 실행
+→ 검증
+→ PASS/FAIL
+
+Agent B
+→ 구현
+→ 실행
+→ 검증
+→ PASS/FAIL
+
+Agent C
+→ 구현
+→ 실행
+→ 검증
+→ PASS/FAIL
+```
+
+까지 해야 진짜 병렬화가 됩니다.
+
+그러면 사람은 마지막에만:
+
+```text
+A → 검증 완료
+B → 검증 완료
+C → 검증 완료
+
+        ↓
+
+Human
+→ 최종 review / 의사결정
+```
+
+을 하면 됩니다.
+
+이걸 륜님 modem 쪽에 그대로 가져오면 아주 정확히 연결됩니다.
+
+현재 방식이:
+
+```text
+Patch A
+→ 장비실
+→ Engineer 검증
+
+Patch B
+→ 장비실
+→ Engineer 검증
+
+Patch C
+→ 장비실
+→ Engineer 검증
+```
+
+이라면, Engineer가 병목입니다.
+
+반면 protocol verification harness가 있으면:
+
+```text
+Patch A
+→ Scenario Replay
+→ PASS/FAIL
+
+Patch B
+→ Scenario Replay
+→ PASS/FAIL
+
+Patch C
+→ Scenario Replay
+→ PASS/FAIL
+```
+
+을 병렬 또는 자동으로 돌릴 수 있습니다.
+
+즉 륜님이 생각하고 있는 **Boundary-driven Modem Verification Framework**가 잘 만들어지면, 단순히 장비실 가는 시간을 줄이는 것보다 더 큰 효과가 있습니다.
+
+> **개발자의 verification 역할을 자동화해서 여러 변경사항을 동시에 검증할 수 있게 만드는 것**
+
+이게 Lauren이 말한 “parallel work”의 핵심입니다.
+
+한 문장으로 압축하면:
+
+> **개발 작업만 병렬화해서는 부족하고, Verification까지 자동화되어야 진짜 병렬 개발이 가능하다.**
+
+그리고 이게 지금 륜님이 고민하는 modem framework와 아주 직접적으로 연결됩니다.
+
 
