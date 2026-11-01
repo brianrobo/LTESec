@@ -204,3 +204,87 @@ Out of Scope:
 에 가깝습니다.
 
 이렇게 정의하면 방향이 아주 명확해집니다.
+
+
+------------
+
+
+
+**Harness**는 테스트 문맥에서 쉽게 말하면:
+
+> **테스트 대상 코드를 실행시키고, 필요한 입력을 넣고, 결과를 확인하게 해주는 테스트용 껍데기/실행 환경**
+
+입니다.
+
+륜님 상황에 맞게 보면:
+
+```text
+[Test Harness]
+   ↓
+Mock Input 주입
+   ↓
+Target Modem Logic 실행
+   ↓
+State / Output 수집
+   ↓
+Expected Result와 비교
+   ↓
+PASS / FAIL
+```
+
+예를 들어 Cell Reselection이면:
+
+```text
+Harness가 하는 일
+
+1. 초기 state 설정
+   - Serving Cell
+   - RRC state
+   - priority
+
+2. Mock measurement 입력
+   - serving RSRP
+   - neighbor RSRP
+
+3. Entry function 호출
+
+4. Timer/event 진행
+
+5. 결과 확인
+   - target cell
+   - state transition
+   - reselection request
+
+6. PASS / FAIL 판정
+```
+
+즉 **Harness 자체가 테스트 대상은 아닙니다.** 테스트 대상 코드를 주변에서 감싸서 실행 가능하게 만들어주는 도구입니다.
+
+륜님이 생각하는 구조로 표현하면:
+
+```text
+Mock Data
+   ↓
+┌──────────────────────────┐
+│      Test Harness        │
+│                          │
+│  Entry 호출              │
+│  Timer/Event 제어        │
+│  State 관찰              │
+│  Output 수집             │
+└────────────┬─────────────┘
+             ↓
+      Modem Target Logic
+```
+
+그래서 **`Domain-scoped Protocol Verification Harness`**라고 하면,
+
+> **특정 protocol domain만 잘라서 입력을 주입하고 로직을 실행하고 결과를 검증하는 테스트 환경**
+
+이라는 뜻입니다.
+
+가장 짧게 기억하면:
+
+> **Harness = 테스트 대상 코드를 실제로 돌려보기 위한 테스트 실행 틀**
+
+
