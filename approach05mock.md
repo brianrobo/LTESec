@@ -287,4 +287,137 @@ Mock Data
 
 > **Harness = 테스트 대상 코드를 실제로 돌려보기 위한 테스트 실행 틀**
 
+-------------
+
+
+
+맞습니다. 정확히 그 개념입니다.
+
+> **특정 Domain을 하나의 검증 대상 블록으로 보고, 그 Domain의 Boundary Interface를 통해 Input을 넣고 Output을 관찰해서 내부 Logic을 검증하는 것**
+
+입니다.
+
+구조로 보면:
+
+```text
+             Outside World
+                  │
+                  │ Input
+                  ▼
+        ┌───────────────────┐
+        │   Target Domain   │
+        │                   │
+        │   Internal Logic  │
+        │   State Machine   │
+        │   Decision Logic  │
+        └───────────────────┘
+                  │
+                  │ Output
+                  ▼
+             Outside World
+```
+
+테스트에서는 Outside World를 실제 RF/HW가 아니라 **Harness가 대신**합니다.
+
+```text
+        Test Harness
+             │
+             │ Mock Input
+             ▼
+        ┌───────────────────┐
+        │   Target Domain   │
+        │                   │
+        │   Real SW Logic   │
+        └───────────────────┘
+             │
+             │ Observed Output
+             ▼
+        Test Harness
+             │
+             ▼
+       Expected와 비교
+             │
+        PASS / FAIL
+```
+
+예를 들어 Cell Reselection Domain이라면:
+
+```text
+Boundary Input
+- Measurement indication
+- Serving / Neighbor RSRP
+- SIB parameter
+- Priority
+- Timer event
+- Current state
+
+        ↓
+
+[ Reselection Domain ]
+
+        ↓
+
+Boundary Output
+- Candidate selection
+- State transition
+- Timer start/stop
+- Cell reselection request
+```
+
+여기서 중요한 점은 **Domain 내부 구현은 실제 modem code를 그대로 사용한다는 것**입니다.
+
+Mock하는 건 주로 바깥쪽입니다.
+
+```text
+실제 환경
+
+L1 / RF
+   ↓
+RRC Reselection Logic
+   ↓
+L1 / Cell Selection
+```
+
+을 테스트에서는:
+
+```text
+Mock L1 Input
+   ↓
+RRC Reselection Logic   ← 실제 production code
+   ↓
+Mock / Captured Output
+```
+
+으로 만드는 겁니다.
+
+그래서 이 접근의 핵심은 결국 **Boundary를 얼마나 잘 정의하느냐**입니다.
+
+좋은 Domain Test는:
+
+```text
+명확한 Entry
++
+명확한 Exit
++
+최소한의 Input
++
+필요한 Initial State
++
+관찰 가능한 Output
+```
+
+이 있어야 합니다.
+
+그리고 륜님이 지금 이야기한 방향에서 한 단계 더 중요한 포인트가 있습니다.
+
+> **Call flow를 완벽하게 재현하는 것이 목표가 아니라, Boundary 안의 production logic이 동일한 Input에 대해 동일한 Decision/Output을 만드는지 검증하는 것이 목표입니다.**
+
+이렇게 정의하면 범위가 훨씬 명확해집니다.
+
+즉, 우리가 만들려는 것은 사실상:
+
+> **Boundary-driven Domain Verification**
+
+이라고 표현해도 상당히 정확합니다.
+
 
