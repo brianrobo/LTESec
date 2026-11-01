@@ -370,4 +370,71 @@ Policy / governance
 그리고 Lauren 영상이 인상적인 이유도 바로 이 두 가지를 AI 개발에 실제 시스템으로 구현해서 보여주기 때문이라고 볼 수 있습니다.
 
 
+----------------
 
+
+네. 륜님이 지금 영상에서 느낀 **“좋은 엔지니어링 = 개인의 감이 아니라, 좋은 원칙·검증·자동화·governance를 시스템으로 만든 것”**이라는 관점에는 계보가 꽤 분명합니다.
+
+제가 특히 추천할 사람은 아래 6명입니다.
+
+1. **W. Edwards Deming** — 가장 뿌리에 가까운 인물입니다. 소프트웨어 엔지니어는 아니지만, 품질을 개인의 주의력 문제가 아니라 **시스템과 프로세스의 문제**로 봤습니다. 지속적 개선, 변동 관리, 피드백 루프 같은 사고를 널리 퍼뜨렸습니다. 지금 우리가 말하는 “사람이 잘하길 기대하지 말고 시스템을 개선하라”는 사고의 원류 중 하나입니다. [The W. Edwards Deming Institute](https://deming.org/deming-the-man/?utm_source=chatgpt.com)
+
+2. **David Parnas** — 소프트웨어 구조 측면에서 매우 중요합니다. 핵심은 **information hiding과 modularity**입니다. 시스템을 잘 나누고, 모듈 사이 boundary를 명확히 해야 변경 영향이 제한된다는 철학이죠. 륜님이 지금 생각하는 **“특정 modem domain을 boundary로 감싸고 input/output으로 검증한다”**는 접근과 직접 연결됩니다.
+
+3. **Kent Beck** — TDD와 Extreme Programming의 대표 인물입니다. 핵심 철학은 “코드를 쓴 뒤 사람이 감으로 확인”하는 것이 아니라 **작은 단위의 자동 테스트를 feedback loop로 만든다**는 것입니다. 즉 verification을 개발 workflow 안으로 집어넣은 사람이라고 볼 수 있습니다.
+
+4. **Jez Humble** — Continuous Delivery 쪽에서 아주 중요합니다. 변경을 작게 만들고, build/test/deploy를 자동화하고, **매 변경마다 자동 검증 가능한 pipeline**을 만드는 접근을 체계화했습니다. Lauren 영상의 PR verification → CI → auto merge와 가장 직접적으로 이어지는 계보 중 하나입니다.
+
+5. **Ben Treynor Sloss** — Google SRE를 만든 사람입니다. 이 사람은 륜님이 지금 느끼는 철학과 특히 잘 맞습니다. 그의 핵심 생각은 반복적인 사람이 하는 운영 작업을 **software engineering과 automation으로 대체**하는 것입니다. Google은 SRE를 “software engineer가 operations function을 설계하면 어떻게 되는가”라는 식으로 설명하고, 사람이 반복적으로 하는 toil을 자동화하는 것을 매우 중요하게 봅니다. [Google SRE](https://sre.google/sre-book/introduction/?utm_source=chatgpt.com)
+
+6. **John Ousterhout** — 륜님에게 개인적으로 가장 추천하고 싶습니다. *A Philosophy of Software Design* 저자입니다. 이 사람은 좋은 설계의 핵심을 **complexity 관리**로 봅니다. 특히 complexity의 징후를 `change amplification`, `cognitive load`, `unknown unknowns`로 설명하고, 의존성을 줄이고 구조를 명확하게 만들어야 한다고 강조합니다. [Stanford University](https://web.stanford.edu/~ouster/cgi-bin/book.php?trk=public_post_comment-text\&utm_source=chatgpt.com)
+
+이걸 하나의 계보로 보면 꽤 재미있습니다.
+
+```text
+Deming
+"품질은 개인의 노력보다 시스템의 결과다"
+        ↓
+Parnas
+"Boundary와 module을 잘 나눠라"
+        ↓
+Kent Beck
+"검증을 빠른 automated feedback loop로 만들어라"
+        ↓
+Jez Humble
+"그 검증을 delivery pipeline 전체로 확장하라"
+        ↓
+Google SRE / Ben Treynor Sloss
+"반복되는 인간 작업을 engineering과 automation으로 제거하라"
+        ↓
+Lauren Tan
+"AI Agent도 사람이 매번 검증하지 않도록
+verification system을 만들어라"
+```
+
+그래서 Lauren의 발표가 완전히 새로운 철학이라기보다, **오랫동안 발전해온 좋은 소프트웨어 엔지니어링 원칙을 AI Agent 시대에 다시 적용한 것**이라고 보는 게 더 정확합니다.
+
+특히 륜님이 지금 고민하는 Modem Verification Framework에도 그대로 이어집니다.
+
+```text
+Parnas
+→ Domain boundary
+
+Kent Beck
+→ Automated test / feedback
+
+Jez Humble
+→ Regression pipeline
+
+Google SRE
+→ Human verification toil 제거
+
+Lauren
+→ Agent가 스스로 verification
+
+륜님 아이디어
+→ RF 장비실 반복 검증을
+   boundary-driven protocol verification으로 전환
+```
+
+그리고 하나만 먼저 읽는다면 저는 **John Ousterhout의 _A Philosophy of Software Design_**을 추천합니다. “왜 모든 걸 다 재현하지 말고 domain을 잘 잘라야 하는가”, “왜 dependency와 interface가 중요한가”가 지금 륜님 고민과 거의 바로 연결됩니다. 그다음 Google의 **SRE Book**을 보면 “왜 사람의 반복 확인을 자동화 시스템으로 바꿔야 하는가”가 연결됩니다. [Google SRE](https://sre.google/sre-book/introduction/?utm_source=chatgpt.com)
